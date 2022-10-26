@@ -1,19 +1,26 @@
 const { response } = require('express');
+const DatabaseService = require('../services/database');
+const TwilioService = require('../services/twilio');
 
 const indexController = {
-    
-    sendMsg: () => {
-        const accountSid = process.env.TWILIO_ACCOUNT_SID;
-        const authToken = process.env.TWILIO_AUTH_TOKEN;
-        const client = require('twilio')(accountSid, authToken);
 
-        client.messages
-            .create({
-                body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
-                from: '+573152139799',
-                to: '+573177402196'
-            })
-            .then(message => console.log(message.sid));
+    sendMsg: async (req, res = response) => {
+        const { msg, recipient } = req.body;
+        const twilioService = new TwilioService();
+        const databaseService = new DatabaseService();
+        const responseTwilio = await twilioService.sendMsgTwilio(msg, recipient);
+        await databaseService.saveMsg(msg, recipient);
+        res.json({
+            responseTwilio
+        });
+    },
+
+    getMsgs: async (req, res) => {
+        const databaseService = new DatabaseService();
+        const messages = await databaseService.getMsgs();
+        res.json({
+            messages
+        })
     }
 }
 

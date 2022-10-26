@@ -4,6 +4,7 @@ const indexController = require('../controller/index');
 
 const router = Router();
 
-router.post('/index', indexController.sendMsg);
+router.post('/msg', indexController.sendMsg);
+router.get('/msgs', indexController.getMsgs);
 
 module.exports = router;
