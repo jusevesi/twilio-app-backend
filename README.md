@@ -15,8 +15,11 @@ npm install
 4. Create a .env file with the information required
 
 TWILIO_ACCOUNT_SID = YourTwilioAccSid
+
 TWILIO_AUTH_TOKEN = YourTwilioAuthToken
+
 PORT=8080
+
 MONGODB_CNN = URL-MongCluster
    
 5. Execute the project
